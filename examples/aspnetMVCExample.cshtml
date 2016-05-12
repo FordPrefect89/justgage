@@ -1,0 +1,57 @@
+@using mfg_display.ViewModels
+@model WIPViewModel
+
+<script>
+    function ReloadPage() {
+        window.location.reload();
+    }
+    setInterval('ReloadPage()', 300000);
+    var lruDailyNeed = 4;   // Hard coded now but will pull value from database.
+    var cmbDone = @Model.DailyProductionCount[0];
+    var cmbNeed = lruDailyNeed - cmbDone;
+    var cmpDone = @Model.DailyProductionCount[1];
+    var cmpNeed = lruDailyNeed - cmpDone;
+    var ohuDone = @Model.DailyProductionCount[2];
+    var ohuNeed = lruDailyNeed - ohuDone;
+
+    $(document).ready(function(){
+        var cmbc = new JustGage({
+                        id: 'cmbtodo',
+                        value: cmbNeed,
+                        min: 0,
+                        max: 4,
+                        title: 'Work to Complete',
+                        levelColorsGraident: true,
+                        titleFontColor: 'black',
+                        valueFontColor: 'black'
+                    });
+                    var cmbt = new JustGage({
+                        id: 'cmbdone',
+                        value: cmbDone,
+                        min: 0,
+                        max: 4,
+                        title: 'LRUs Complete',
+                        levelColorsGradient: true,
+                        titleFontColor: 'black',
+                        valueFontColor: 'black'
+                    });
+    });
+</script>
+
+<div class="container-fluid slotBorder">
+    <div class="row text-center" style="border: 2px solid black">
+        <div class="col-sm-12"><h2>Combiners</h2></div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-sm-3" style="margin-left: -60px;">
+            <div class="row" style="z-index: 10;">
+                <div class="col-sm-6">
+                    <div id="cmbtodo"></div>
+                </div>
+                <div class="col-sm-6">
+                    <div id="cmbdone"></div>
+                </div>
+            </div>
+         </div>
+    </div>
+</div>
